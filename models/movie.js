@@ -47,8 +47,7 @@ const cardSchema = new mongoose.Schema(
 			],
 		},
 		owner: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "user",
+			type: String,
 			required: true,
 		},
 		movieId: {
@@ -76,4 +75,4 @@ const cardSchema = new mongoose.Schema(
 	{ versionKey: false }, //для отключения поля '__v'
 );
 
-module.exports = mongoose.model("card", cardSchema); //в компасе к названию коллекции добавляется s
+module.exports = mongoose.model("movie", cardSchema); //в компасе к названию коллекции добавляется s
