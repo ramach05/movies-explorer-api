@@ -11,6 +11,7 @@ const NotFoundError = require("./errors/not-found-err");
 const { auth } = require("./middlewares/auth");
 const { movieRouter } = require("./routes/movies");
 const { handleErrors } = require("./errors/handleErrors"); const { login, createUser } = require("./controllers/users");
+const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const app = express();
 
@@ -37,6 +38,7 @@ mongoose.connect(
 app.use(helmet()); //помогает защитить приложение от некоторых широко известных веб-уязвимостей путем соответствующей настройки заголовков HTTP
 app.use(express.json()); //добавляется в запрос поле req.body
 app.use(cors()); //защита роутов
+app.use(requestLogger); //логгер запросов
 app.use(limiter); //защита от DoS-атак
 
 app.use((req, res, next) => { //вывод в консоль метода и пути запроса
@@ -72,6 +74,8 @@ app.use("*", (req, res, next) => Users.findOne({})
 		throw new NotFoundError("Ресурс не найден");
 	})
 	.catch(next)); //эквивалентно catch(err => next(err))
+
+app.use(errorLogger); //логгер ошибок
 
 app.use(handleErrors); //централизованная обработка ошибок
 
