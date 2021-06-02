@@ -3,8 +3,7 @@ const NotFoundError = require("../errors/not-found-err");
 const Movies = require("../models/movie");
 
 exports.getMovies = (req, res, next) => {
-	// Movies.find({ owner: req.user._id })
-	Movies.find({ owner: "42" })
+	Movies.find({ owner: req.user._id })
 		.then((movies) => res.status(200).send({ movies: movies.reverse() }))
 		.catch(next);
 };
@@ -13,8 +12,7 @@ exports.createMovie = (req, res, next) => {
 	const {
 		country, director, duration, year, description, image, trailer, thumbnail, movieId, nameRU, nameEN,
 	} = req.body;
-	// const owner = req.user._id;
-	const owner = "42";
+	const owner = req.user._id;
 
 	Movies.create({
 		country, director, duration, year, description, image, trailer, thumbnail, owner, movieId, nameRU, nameEN,
@@ -36,12 +34,12 @@ exports.createMovie = (req, res, next) => {
 
 exports.deleteMovie = (req, res, next) => {
 	Movies.findByIdAndRemove(req.params.movieId)
-		.orFail(() => new NotFoundError("Карточка с указанным _id не найдена")) //если приходит пустой объект, назначает ошибку и переходит в catch
+		.orFail(() => new NotFoundError("Фильм с указанным _id не найден")) //если приходит пустой объект, назначает ошибку и переходит в catch
 		.then((movie) => {
 			if (req.user._id === movie.owner.toString()) {
 				return res.status(200).send({ movie });
 			}
-			throw new BadRequest("Нельзя удалять карточки других пользователей");
+			throw new BadRequest("Нельзя удалять фильмы других пользователей");
 		})
 		.catch(next);
 };

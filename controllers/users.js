@@ -48,3 +48,75 @@ exports.updateUserProfile = (req, res, next) => {
 			return next(err);
 		});
 };
+
+exports.login = (req, res, next) => {
+	const { email, password } = req.body;
+
+	Users.findOne({ email })
+		.select("+password") //возвращает скрытый хеш пароля
+		.then((user) => {
+			if (!user) {
+				throw new Unauthorized("Неправильные почта или пароль");
+			}
+
+			return bcrypt
+				.compare(password, user.password) //сравниваем пароль с хешем в базе (работает асинхронно, в then придёт true при совпадении)
+				.then((matched) => {
+					if (!matched) {
+						throw new Unauthorized("Неправильные почта или пароль");
+					}
+					const token = jwt.sign(
+						{ _id: user.id }, //пейлоуд токена — зашифрованный в строку объект пользователя
+						JWT_SECRET_KEY,
+						{ expiresIn: "7d" }, //объект опций, через сколько токен будет просрочен
+					);
+					return res.send({ token });
+				})
+				.catch(next);
+		})
+		.catch(next);
+};
+
+exports.createUser = (req, res, next) => {
+	const {
+		email, password, name,
+	} = req.body; //получим из объекта запроса данные пользователя
+
+	if (!email || !password) {
+		throw new BadRequest("Не переданы email или пароль");
+	}
+	return Users.findOne({ email })
+		.then((userWithEmail) => {
+			if (userWithEmail) {
+				throw new Conflict("Пользователь с таким email уже существует");
+			}
+			if (validator.isEmail(email)) {
+				const normalizeEmail = validator.normalizeEmail(email); //sanitizers
+				return bcrypt
+					.hash(password, 10) //хешируем пароль
+					.then((hash) => Users.create({
+						name,
+						email: normalizeEmail,
+						password: hash,
+					}))
+					.then((user) => res.status(200).send({ ...user._doc, password: undefined })) //скрываем пароль в ответе
+					.catch((err) => {
+						if (err.name === "MongoError" && err.code === 11000) {
+							return next(
+								new Conflict("Пользователь с таким email уже существует"),
+							);
+						}
+						if (err.name === "ValidationError") {
+							return next(
+								new BadRequest(
+									"Переданы некорректные данные при создании пользователя",
+								),
+							);
+						}
+						return next(err);
+					}); //если данные не записались, вернём ошибку
+			}
+			return next(new Error());
+		})
+		.catch(next);
+};

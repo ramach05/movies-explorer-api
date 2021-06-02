@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-// const { celebrate, Joi } = require("celebrate"); //для валидации запросов
+const { celebrate, Joi } = require("celebrate"); //для валидации запросов
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const cors = require("cors");
@@ -10,7 +10,7 @@ const { usersRouter } = require("./routes/users");
 const NotFoundError = require("./errors/not-found-err");
 const { auth } = require("./middlewares/auth");
 const { movieRouter } = require("./routes/movies");
-const { handleErrors } = require("./errors/handleErrors");
+const { handleErrors } = require("./errors/handleErrors"); const { login, createUser } = require("./controllers/users");
 
 const app = express();
 
@@ -44,10 +44,28 @@ app.use((req, res, next) => { //вывод в консоль метода и п�
 	next();
 });
 
-// app.use(auth, usersRouter);
-// app.use(auth, movieRouter);
-app.use(usersRouter);
-app.use(movieRouter);
+app.post("/signin",
+	celebrate({
+		body: Joi.object().keys({
+			email: Joi.string().email().required().regex(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+			password: Joi.string().required().min(8),
+		}),
+	}),
+	login);
+
+app.post("/signup",
+	celebrate({
+		body: Joi.object().keys({
+			email: Joi.string().email().required().regex(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+			password: Joi.string().required().min(8),
+			name: Joi.string().min(2).max(30)
+				.default("Жак-Ив Кусто"),
+		}),
+	}),
+	createUser);
+
+app.use(auth, usersRouter);
+app.use(auth, movieRouter);
 
 app.use("*", (req, res, next) => Users.findOne({})
 	.then(() => {

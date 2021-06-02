@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const cardSchema = new mongoose.Schema(
+const movieSchema = new mongoose.Schema(
 	{
 		country: {
 			type: String,
@@ -75,4 +75,4 @@ const cardSchema = new mongoose.Schema(
 	{ versionKey: false }, //для отключения поля '__v'
 );
 
-module.exports = mongoose.model("movie", cardSchema); //в компасе к названию коллекции добавляется s
+module.exports = mongoose.model("movie", movieSchema); //в компасе к названию коллекции добавляется s

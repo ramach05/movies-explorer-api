@@ -14,7 +14,7 @@ exports.auth = (req, res, next) => {
 	const token = authorization.replace("Bearer ", ""); //извлечём токен и отделим от заголовка приставку, если она есть
 	let payload;
 	try {
-		payload = jwt.verify(token, JWT_SECRET_KEY); //пытаемся верифицировать токен (два параметра — токен и секретный ключ), verify вернёт пейлоуд токена после проверки
+		payload = jwt.verify(token, JWT_SECRET_KEY); //верифицируем токен (два параметра — токен и секретный ключ), verify вернёт пейлоуд токена после проверки
 	} catch (err) {
 		return next(new Unauthorized("Необходима авторизация"));
 	}
