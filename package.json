@@ -1,0 +1,42 @@
+{
+  "name": "movies-explorer-api",
+  "author": "Roman Kovalenko <mrroman6552@yandex.ru> (https://github.com/ramach05)",
+  "description": "The project 'movies-explorer-api' was created using the Node.js technology",
+  "homepage": "https://api.api.domainname.zone.nomoredomains.icu",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint .",
+    "start": "node app.js 3001",
+    "dev": "nodemon app.js 3001"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ramach05/movies-explorer-api.git"
+  },
+  "license": "ISC",
+  "version": "1.0.0",
+  "bugs": {
+    "url": "https://github.com/ramach05/movies-explorer-api/issues"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "celebrate": "^14.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.2.6",
+    "express-winston": "^4.1.0",
+    "helmet": "^4.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.12",
+    "validator": "^13.6.0",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.27.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "nodemon": "^2.0.7"
+  }
+}
