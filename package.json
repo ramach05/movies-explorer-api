@@ -2,7 +2,7 @@
   "name": "movies-explorer-api",
   "author": "Roman Kovalenko <mrroman6552@yandex.ru> (https://github.com/ramach05)",
   "description": "The project 'movies-explorer-api' was created using the Node.js technology",
-  "homepage": "https://api.api.domainname.zone.nomoredomains.icu",
+  "homepage": "https://api.movies-explorer-roman.nomoredomains.icu/",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
