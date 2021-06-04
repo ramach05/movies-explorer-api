@@ -12,6 +12,7 @@ const { movieRouter } = require('./routes/movies');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { handleErrors } = require('./errors/handleErrors');
 const { authenticationRouter } = require('./routes/authentication');
+const { Routes } = require('./routes');
 
 const app = express();
 
@@ -46,9 +47,7 @@ app.use((req, res, next) => { //вывод в консоль метода и п�
   next();
 });
 
-app.use(authenticationRouter);
-app.use(auth, usersRouter);
-app.use(auth, movieRouter);
+app.use(Routes);
 
 app.use('*', (req, res, next) => Users.findOne({})
   .then(() => {
