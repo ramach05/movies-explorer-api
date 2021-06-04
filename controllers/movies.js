@@ -33,10 +33,13 @@ exports.createMovie = (req, res, next) => {
 };
 
 exports.deleteMovie = (req, res, next) => {
-  Movies.findByIdAndRemove(req.params.movieId)
+  const { movieId } = req.params;
+
+  Movies.findById(movieId)
     .orFail(() => new NotFoundError('Фильм с указанным _id не найден')) //если приходит пустой объект, назначает ошибку и переходит в catch
     .then((movie) => {
       if (req.user._id === movie.owner.toString()) {
+        Movies.findByIdAndRemove(movieId);
         return res.status(200).send({ movie });
       }
       throw new BadRequest('Нельзя удалять фильмы других пользователей');
