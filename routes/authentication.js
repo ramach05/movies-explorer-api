@@ -6,7 +6,7 @@ const { login, createUser } = require('../controllers/users');
 authenticationRouter.post('/signin',
   celebrate({
     body: Joi.object().keys({
-      email: Joi.string().email().required().regex(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+      email: Joi.string().email(),
       password: Joi.string().required().min(8),
     }),
   }),
@@ -15,7 +15,7 @@ authenticationRouter.post('/signin',
 authenticationRouter.post('/signup',
   celebrate({
     body: Joi.object().keys({
-      email: Joi.string().email().required().regex(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+      email: Joi.string().email().required(),
       password: Joi.string().required().min(8),
       name: Joi.string().min(2).max(30).required(),
     }),

@@ -27,25 +27,34 @@ exports.getMe = (req, res, next) => {
 
 exports.updateUserProfile = (req, res, next) => {
   const { name, email } = req.body;
-  Users.findByIdAndUpdate(
-    req.user._id,
-    { name, email },
-    {
-      runValidators: true, //для автоматической валидации при запросе
-      new: true, //обработчик then получит на вход обновлённую запись
-    },
-  )
-    .orFail(
-      new NotFoundError('Переданы некорректные данные при обновлении профиля'),
-    )
-    .then((user) => res.status(200).send({ user }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return next(
-          new BadRequest('Переданы некорректные данные при обновлении профиля'),
-        );
+  const { _id } = req.user;
+
+  Users.findById(_id)
+    .orFail(() => new NotFoundError('Пользователя не существует')) //если приходит пустой объект, назначает ошибку и переходит в catch
+    .then((user) => {
+      if (user.email !== email) {
+        throw new Conflict('Почтовый ящик принадлежит другому юзеру');
       }
-      return next(err);
+      Users.findByIdAndUpdate(
+        _id,
+        { name, email },
+        {
+          runValidators: true, //для автоматической валидации при запросе
+          new: true, //обработчик then получит на вход обновлённую запись
+        },
+      )
+        .orFail(
+          new NotFoundError('Переданы некорректные данные при обновлении профиля'),
+        )
+        .then((updateUser) => res.status(200).send({ updateUser }))
+        .catch((err) => {
+          if (err.name === 'ValidationError') {
+            return next(
+              new BadRequest('Переданы некорректные данные при обновлении профиля'),
+            );
+          }
+          return next(err);
+        });
     });
 };
 
@@ -82,7 +91,7 @@ exports.createUser = (req, res, next) => {
     email, password, name,
   } = req.body; //получим из объекта запроса данные пользователя
 
-  if (!email || !password) {
+  if (!email || !password || !name) {
     throw new BadRequest('Не переданы email или пароль');
   }
   return Users.findOne({ email })

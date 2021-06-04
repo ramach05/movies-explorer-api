@@ -57,6 +57,9 @@ app.use('*', (req, res, next) => Users.findOne({})
   .catch(next)); //эквивалентно catch(err => next(err))
 
 app.use(errorLogger); //логгер ошибок
+
+app.use(require('celebrate').errors()); //обрабатывает ошибки celebrate
+
 app.use(handleErrors); //централизованная обработка ошибок
 
 app.listen(PORT, () => {
