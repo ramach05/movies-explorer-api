@@ -16,7 +16,7 @@ exports.getMe = (req, res, next) => {
     .then((user) => {
       if (user) {
         console.log('req.user :', req.user);
-        return res.status(200).send({ user });
+        return res.send({ user });
       }
       throw new NotFoundError('Пользователь не найден');
     })
@@ -44,7 +44,7 @@ exports.updateUserProfile = (req, res, next) => {
         .orFail(
           new NotFoundError('Переданы некорректные данные при обновлении профиля'),
         )
-        .then((updateUser) => res.status(200).send({ updateUser }))
+        .then((updateUser) => res.send({ updateUser }))
         .catch((err) => {
           if (err.name === 'ValidationError') {
             return next(
@@ -106,7 +106,7 @@ exports.createUser = (req, res, next) => {
             email: normalizeEmail,
             password: hash,
           }))
-          .then((user) => res.status(200).send({ ...user._doc, password: undefined })) //скрываем пароль в ответе
+          .then((user) => res.send({ ...user._doc, password: undefined })) //скрываем пароль в ответе
           .catch((err) => {
             if (err.name === 'MongoError' && err.code === 11000) {
               return next(

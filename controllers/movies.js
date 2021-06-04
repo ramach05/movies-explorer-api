@@ -4,7 +4,7 @@ const Movies = require('../models/movie');
 
 exports.getMovies = (req, res, next) => {
   Movies.find({ owner: req.user._id })
-    .then((movies) => res.status(200).send({ movies: movies.reverse() }))
+    .then((movies) => res.send({ movies: movies.reverse() }))
     .catch(next);
 };
 
@@ -21,7 +21,7 @@ exports.createMovie = (req, res, next) => {
       if (!movie) {
         throw new BadRequest();
       }
-      return res.status(200).send({ movie });
+      return res.send({ movie });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -40,7 +40,7 @@ exports.deleteMovie = (req, res, next) => {
     .then((movie) => {
       if (req.user._id === movie.owner.toString()) {
         Movies.findByIdAndRemove(movieId);
-        return res.status(200).send({ movie });
+        return res.send({ movie });
       }
       throw new BadRequest('Нельзя удалять фильмы других пользователей');
     })
