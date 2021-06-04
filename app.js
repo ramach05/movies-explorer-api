@@ -1,30 +1,21 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const cors = require('cors');
 
+require('dotenv').config(); //добавляет env-переменные в process.env
+
 const Users = require('./models/user');
-const { usersRouter } = require('./routes/users');
 const NotFoundError = require('./errors/not-found-err');
-const { auth } = require('./middlewares/auth');
-const { movieRouter } = require('./routes/movies');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { handleErrors } = require('./errors/handleErrors');
-const { authenticationRouter } = require('./routes/authentication');
 const { Routes } = require('./routes');
+const { limiter } = require('./middlewares/rateLimit');
+
+const PORT = 3001;
+const { MONGO_URL } = process.env;
 
 const app = express();
-
-const {
-  PORT = 3001,
-  MONGO_URL = 'mongodb://localhost:27017/bitfilmsdb',
-} = process.env;
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, //15 minutes
-  max: 500, //limit each IP to 500 requests per windowMs
-});
 
 mongoose.connect(
   MONGO_URL,
@@ -49,11 +40,13 @@ app.use((req, res, next) => { //вывод в консоль метода и п�
 
 app.use(Routes);
 
-app.use('*', (req, res, next) => Users.findOne({})
-  .then(() => {
-    throw new NotFoundError('Ресурс не найден');
-  })
-  .catch(next)); //эквивалентно catch(err => next(err))
+// app.use('*', (req, res, next) => Users.findOne({})
+//   .then(() => {
+//     throw new NotFoundError('Ресурс не найден');
+//   })
+//   .catch(next)); //эквивалентно catch(err => next(err))
+
+app.use('*', (req, res, next) => next(new NotFoundError('Ресурс не найден')));
 
 app.use(errorLogger); //логгер ошибок
 

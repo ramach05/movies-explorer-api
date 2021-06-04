@@ -7,6 +7,10 @@ const {
   deleteMovie,
 } = require('../controllers/movies');
 
+const linkRegex = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+const cyrillicRegex = /^[а-яё -]+$/i;
+const latinRegex = /^[a-z -]+$/i;
+
 //запросы
 movieRouter.get('/movies', getMovies);
 
@@ -18,12 +22,12 @@ movieRouter.post('/movies',
       duration: Joi.number().required(),
       year: Joi.string().required(),
       description: Joi.string().required(),
-      image: Joi.string().required().regex(/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/),
-      trailer: Joi.string().required().regex(/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/),
-      thumbnail: Joi.string().required().regex(/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/),
+      image: Joi.string().required().regex(linkRegex),
+      trailer: Joi.string().required().regex(linkRegex),
+      thumbnail: Joi.string().required().regex(linkRegex),
       movieId: Joi.number().required(),
-      nameRU: Joi.string().required().regex(/^[а-яё -]+$/i),
-      nameEN: Joi.string().required().regex(/^[a-z -]+$/i),
+      nameRU: Joi.string().required().regex(cyrillicRegex),
+      nameEN: Joi.string().required().regex(latinRegex),
     }),
   }),
   createMovie);

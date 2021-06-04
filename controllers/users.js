@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const validator = require('validator'); //для валидации полей
 const bcrypt = require('bcryptjs'); //для хеширования паролей
 const jwt = require('jsonwebtoken'); //для создания токенов
