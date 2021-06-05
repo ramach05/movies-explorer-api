@@ -36,7 +36,7 @@ app.use(requestLogger); // логгер запросов
 app.use(limiter); // защита от DoS-атак
 
 app.use((req, res, next) => { // вывод в консоль метода и пути запроса
-  console.log(req.method, req.path);
+  console.log(req.method, req.path); // eslint-disable-line no-console
   next();
 });
 
@@ -57,5 +57,5 @@ app.use(require('celebrate').errors()); // обрабатывает ошибки
 app.use(handleErrors); // централизованная обработка ошибок
 
 app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
+  console.log(`App listening on port ${PORT}`); // eslint-disable-line no-console
 });

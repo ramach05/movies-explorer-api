@@ -15,7 +15,7 @@ exports.getMe = (req, res, next) => {
   Users.findOne({ _id })
     .then((user) => {
       if (user) {
-        console.log('req.user :', req.user);
+        console.log('req.user :', req.user); // eslint-disable-line no-console
         return res.send({ user });
       }
       throw new NotFoundError('Пользователь не найден');
