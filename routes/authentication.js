@@ -1,5 +1,5 @@
 const authenticationRouter = require('express').Router();
-const { celebrate, Joi } = require('celebrate'); //для валидации запросов
+const { celebrate, Joi } = require('celebrate'); // для валидации запросов
 
 const { login, createUser } = require('../controllers/users');
 

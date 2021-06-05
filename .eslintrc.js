@@ -4,10 +4,7 @@ module.exports = {
     commonjs: true,
     es2021: true,
   },
-  extends: [
-    'eslint:recommended',
-    'airbnb-base',
-  ],
+  extends: ['eslint:recommended', 'airbnb-base'],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -15,11 +12,11 @@ module.exports = {
     ecmaVersion: 12,
   },
   rules: {
-    'spaced-comment': 0, //пробелы в коментах
-    'no-console': 0, //вывод консоли в коде
-    'max-len': 0, //ограничение длины строки
+    // 'no-console': 0, // вывод консоли в коде
+    // 'max-len': 0, // ограничение длины строки
     'no-underscore-dangle': [
-      'error', { allow: ['_id', '_doc'] }, //позволяет указанным идентификаторам иметь нижнее подчеркивания
+      'error',
+      { allow: ['_id', '_doc'] }, // позволяет указанным идентификаторам иметь нижнее подчеркивания
     ],
   },
 };

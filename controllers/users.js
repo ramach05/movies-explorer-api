@@ -1,13 +1,13 @@
-const validator = require('validator'); //для валидации полей
-const bcrypt = require('bcryptjs'); //для хеширования паролей
-const jwt = require('jsonwebtoken'); //для создания токенов
+const validator = require('validator'); // для валидации полей
+const bcrypt = require('bcryptjs'); // для хеширования паролей
+const jwt = require('jsonwebtoken'); // для создания токенов
 const Users = require('../models/user');
 const NotFoundError = require('../errors/not-found-err');
 const Unauthorized = require('../errors/unauthorized-err');
 const BadRequest = require('../errors/bad-request-err');
 const Conflict = require('../errors/conflict-err');
 
-const { JWT_SECRET_KEY = 'dev-key' } = process.env; //секретный ключ подписи
+const { JWT_SECRET_KEY = 'dev-key' } = process.env; // секретный ключ подписи
 
 exports.getMe = (req, res, next) => {
   const { _id } = req.user;
@@ -28,7 +28,7 @@ exports.updateUserProfile = (req, res, next) => {
   const { _id } = req.user;
 
   Users.findById(_id)
-    .orFail(() => new NotFoundError('Пользователя не существует')) //если приходит пустой объект, назначает ошибку и переходит в catch
+    .orFail(() => new NotFoundError('Пользователя не существует')) // если приходит пустой объект, назначает ошибку и переходит в catch
     .then((user) => {
       if (user.email !== email) {
         throw new Conflict('Почтовый ящик принадлежит другому юзеру');
@@ -37,8 +37,8 @@ exports.updateUserProfile = (req, res, next) => {
         _id,
         { name, email },
         {
-          runValidators: true, //для автоматической валидации при запросе
-          new: true, //обработчик then получит на вход обновлённую запись
+          runValidators: true, // для автоматической валидации при запросе
+          new: true, // обработчик then получит на вход обновлённую запись
         },
       )
         .orFail(
@@ -60,22 +60,23 @@ exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
   Users.findOne({ email })
-    .select('+password') //возвращает скрытый хеш пароля
+    .select('+password') // возвращает скрытый хеш пароля
     .then((user) => {
       if (!user) {
         throw new Unauthorized('Неправильные почта или пароль');
       }
 
       return bcrypt
-        .compare(password, user.password) //сравниваем пароль с хешем в базе (работает асинхронно, в then придёт true при совпадении)
+        .compare(password, user.password)
+        // сравниваем пароль с хешем в базе (работает асинхронно, в then придёт true при совпадении)
         .then((matched) => {
           if (!matched) {
             throw new Unauthorized('Неправильные почта или пароль');
           }
           const token = jwt.sign(
-            { _id: user.id }, //пейлоуд токена — зашифрованный в строку объект пользователя
+            { _id: user.id }, // пейлоуд токена — зашифрованный в строку объект пользователя
             JWT_SECRET_KEY,
-            { expiresIn: '7d' }, //объект опций, через сколько токен будет просрочен
+            { expiresIn: '7d' }, // объект опций, через сколько токен будет просрочен
           );
           return res.send({ token });
         })
@@ -87,7 +88,7 @@ exports.login = (req, res, next) => {
 exports.createUser = (req, res, next) => {
   const {
     email, password, name,
-  } = req.body; //получим из объекта запроса данные пользователя
+  } = req.body; // получим из объекта запроса данные пользователя
 
   if (!email || !password || !name) {
     throw new BadRequest('Не переданы email или пароль');
@@ -98,15 +99,17 @@ exports.createUser = (req, res, next) => {
         throw new Conflict('Пользователь с таким email уже существует');
       }
       if (validator.isEmail(email)) {
-        const normalizeEmail = validator.normalizeEmail(email); //sanitizers
+        const normalizeEmail = validator.normalizeEmail(email); // sanitizers
         return bcrypt
-          .hash(password, 10) //хешируем пароль
+          .hash(password, 10) // хешируем пароль
           .then((hash) => Users.create({
             name,
             email: normalizeEmail,
             password: hash,
           }))
-          .then((user) => res.send({ ...user._doc, password: undefined })) //скрываем пароль в ответе
+          .then((user) => res.send({
+            ...user._doc, password: undefined, // скрываем пароль в ответе
+          }))
           .catch((err) => {
             if (err.name === 'MongoError' && err.code === 11000) {
               return next(
@@ -121,7 +124,7 @@ exports.createUser = (req, res, next) => {
               );
             }
             return next(err);
-          }); //если данные не записались, вернём ошибку
+          }); // если данные не записались, вернём ошибку
       }
       return next(new Error());
     })

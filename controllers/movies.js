@@ -10,12 +10,24 @@ exports.getMovies = (req, res, next) => {
 
 exports.createMovie = (req, res, next) => {
   const {
-    country, director, duration, year, description, image, trailer, thumbnail, movieId, nameRU, nameEN,
+    country, director, duration, year, description,
+    image, trailer, thumbnail, movieId, nameRU, nameEN,
   } = req.body;
   const owner = req.user._id;
 
   Movies.create({
-    country, director, duration, year, description, image, trailer, thumbnail, owner, movieId, nameRU, nameEN,
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailer,
+    thumbnail,
+    owner,
+    movieId,
+    nameRU,
+    nameEN,
   })
     .then((movie) => {
       if (!movie) {
@@ -36,7 +48,7 @@ exports.deleteMovie = (req, res, next) => {
   const { movieId } = req.params;
 
   Movies.findById(movieId)
-    .orFail(() => new NotFoundError('Фильм с указанным _id не найден')) //если приходит пустой объект, назначает ошибку и переходит в catch
+    .orFail(() => new NotFoundError('Фильм с указанным _id не найден')) // если приходит пустой объект, назначает ошибку и переходит в catch
     .then((movie) => {
       if (req.user._id === movie.owner.toString()) {
         Movies.findByIdAndRemove(movieId);

@@ -72,7 +72,7 @@ const movieSchema = new mongoose.Schema(
     },
   },
 
-  { versionKey: false }, //для отключения поля '__v'
+  { versionKey: false }, // для отключения поля '__v'
 );
 
-module.exports = mongoose.model('movie', movieSchema); //в компасе к названию коллекции добавляется s
+module.exports = mongoose.model('movie', movieSchema); // в компасе к названию коллекции добавляется s

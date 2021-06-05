@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      select: false, //чтобы хеш пароля не возвращался (работает только в методах find)
+      select: false, // чтобы хеш пароля не возвращался (работает только в методах find)
     },
     name: {
       type: String,
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
     },
   },
 
-  { versionKey: false }, //для отключения поля '__v'
+  { versionKey: false }, // для отключения поля '__v'
 );
 
-module.exports = mongoose.model('user', userSchema); //в компасе к названию коллекции добавляется s
+module.exports = mongoose.model('user', userSchema); // в компасе к названию коллекции добавляется s

@@ -6,7 +6,7 @@ const {
   getMe,
 } = require('../controllers/users');
 
-//запросы
+// запросы
 usersRouter.get('/users/me', getMe);
 
 usersRouter.patch('/users/me',
