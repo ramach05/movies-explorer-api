@@ -51,8 +51,8 @@ exports.deleteMovie = (req, res, next) => {
     .orFail(() => new NotFoundError('Фильм с указанным _id не найден')) // если приходит пустой объект, назначает ошибку и переходит в catch
     .then((movie) => {
       if (req.user._id === movie.owner.toString()) {
-        Movies.findByIdAndRemove(movieId);
-        return res.send({ movie });
+        return Movies.findByIdAndRemove(movieId)
+          .then(() => { res.send({ movie }); });
       }
       throw new BadRequest('Нельзя удалять фильмы других пользователей');
     })
