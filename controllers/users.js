@@ -27,32 +27,30 @@ exports.updateUserProfile = (req, res, next) => {
   const { name, email } = req.body;
   const { _id } = req.user;
 
-  Users.findById(_id)
-    .orFail(() => new NotFoundError('Пользователя не существует')) // если приходит пустой объект, назначает ошибку и переходит в catch
-    .then((user) => {
-      if (user.email !== email) {
-        throw new Conflict('Почтовый ящик принадлежит другому юзеру');
+  Users.findByIdAndUpdate(
+    _id,
+    { name, email },
+    {
+      runValidators: true, // для автоматической валидации при запросе
+      new: true, // обработчик then получит на вход обновлённую запись
+    },
+  )
+    .orFail(
+      new NotFoundError('Переданы некорректные данные при обновлении профиля'),
+    )
+    .then((updateUser) => res.send({ updateUser }))
+    .catch((err) => {
+      if (err.code === 11000) {
+        return next(
+          new Conflict('Почтовый ящик принадлежит другому юзеру'),
+        );
       }
-      Users.findByIdAndUpdate(
-        _id,
-        { name, email },
-        {
-          runValidators: true, // для автоматической валидации при запросе
-          new: true, // обработчик then получит на вход обновлённую запись
-        },
-      )
-        .orFail(
-          new NotFoundError('Переданы некорректные данные при обновлении профиля'),
-        )
-        .then((updateUser) => res.send({ updateUser }))
-        .catch((err) => {
-          if (err.name === 'ValidationError') {
-            return next(
-              new BadRequest('Переданы некорректные данные при обновлении профиля'),
-            );
-          }
-          return next(err);
-        });
+      if (err.name === 'ValidationError') {
+        return next(
+          new BadRequest('Переданы некорректные данные при обновлении профиля'),
+        );
+      }
+      return next(err);
     });
 };
 
