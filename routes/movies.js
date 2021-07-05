@@ -17,7 +17,7 @@ movieRouter.get('/movies', getMovies);
 movieRouter.post('/movies',
   celebrate({
     body: Joi.object().keys({
-      country: Joi.string().required(),
+      country: Joi.string(),
       director: Joi.string().required(),
       duration: Joi.number().required(),
       year: Joi.string().required(),
@@ -26,8 +26,8 @@ movieRouter.post('/movies',
       trailer: Joi.string().required().regex(linkRegex),
       thumbnail: Joi.string().required().regex(linkRegex),
       movieId: Joi.number().required(),
-      nameRU: Joi.string().required().regex(cyrillicRegex),
-      nameEN: Joi.string().required().regex(latinRegex),
+      nameRU: Joi.string().required(),
+      nameEN: Joi.string().required(),
     }),
   }),
   createMovie);
