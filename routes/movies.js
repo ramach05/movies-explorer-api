@@ -8,8 +8,8 @@ const {
 } = require('../controllers/movies');
 
 const linkRegex = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
-const cyrillicRegex = /^[а-яё -]+$/i;
-const latinRegex = /^[a-z -]+$/i;
+// const cyrillicRegex = /^[а-яё -]+$/i;
+// const latinRegex = /^[a-z -]+$/i;
 
 // запросы
 movieRouter.get('/movies', getMovies);
