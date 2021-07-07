@@ -4,7 +4,7 @@ const movieSchema = new mongoose.Schema(
   {
     country: {
       type: String,
-      required: true,
+      // required: true,
     },
     director: {
       type: String,
@@ -57,18 +57,18 @@ const movieSchema = new mongoose.Schema(
     nameRU: {
       type: String,
       required: true,
-      match: [
-        /^[а-яё -]+$/i,
-        'Введите название фильма на русском языке',
-      ],
+      // match: [
+      //   /^[а-яё -]+$/i,
+      //   'Введите название фильма на русском языке',
+      // ],
     },
     nameEN: {
       type: String,
       required: true,
-      match: [
-        /^[a-z -]+$/i,
-        'Введите название фильма на английском языке',
-      ],
+      // match: [
+      //   /^[a-z -]+$/i,
+      //   'Введите название фильма на английском языке',
+      // ],
     },
   },
 
