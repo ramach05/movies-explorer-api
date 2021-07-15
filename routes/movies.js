@@ -27,7 +27,7 @@ movieRouter.post('/movies',
       thumbnail: Joi.string().required().regex(linkRegex),
       movieId: Joi.number().required(),
       nameRU: Joi.string().required(),
-      nameEN: Joi.string().required(),
+      nameEN: Joi.string(),
     }),
   }),
   createMovie);
