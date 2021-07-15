@@ -64,7 +64,7 @@ const movieSchema = new mongoose.Schema(
     },
     nameEN: {
       type: String,
-      required: true,
+      // required: true,
       // match: [
       //   /^[a-z -]+$/i,
       //   'Введите название фильма на английском языке',
