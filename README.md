@@ -16,16 +16,19 @@
 
 ## Используемые технологии
 
-- eslint;
-- nodemon;
-- mongoose;
+- Node.js
 - express;
+- mongoose;
 - Postman;
 - MongoDB;
+- celebrate;
+- nodemon;
+- eslint;
 
 ---
 
-Публичный IP-адрес сервера: [178.154.241.213](https://178.154.241.213/
- "https://178.154.241.213/").
+Публичный IP-адрес сервера: [178.154.241.213](https://178.154.241.213/ "https://178.154.241.213/").
 
-[ССЫЛКА](https://api.movies-explorer-roman.nomoredomains.icu/ "Проект Movie-Explorer бэкенд") на домен.
+[Ссылка](https://api.movies-explorer-roman.nomoredomains.icu/ "Movie-Explorer бэкенд") на домен.
+
+[ССЫЛКА](https://movies-explorer-roman.nomoredomains.icu/ "Сайт Movies-Explorer") на сайт.
