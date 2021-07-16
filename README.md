@@ -1,4 +1,4 @@
-# Проект Movie-Explorer бэкенд
+# Проект Movies-Explorer бэкенд
 
 ## Директории
 

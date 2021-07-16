@@ -35,9 +35,7 @@ exports.updateUserProfile = (req, res, next) => {
       new: true, // обработчик then получит на вход обновлённую запись
     },
   )
-    .orFail(
-      new NotFoundError('Переданы некорректные данные при обновлении профиля'),
-    )
+    .orFail(() => new NotFoundError('Переданы некорректные данные при обновлении профиля'))
     .then((updateUser) => res.send({ updateUser }))
     .catch((err) => {
       if (err.code === 11000) {
