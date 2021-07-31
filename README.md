@@ -1,6 +1,6 @@
 # Проект Movies-Explorer бэкенд
 
-Репозиторий для Бэкенд-части приложения проекта Movies-Explorer. Реализован с помощью [![Node.js](https://img.shields.io/badge/Node.js-391468?style=flat&logo=node.js)](https://nodejs.org/en/) [![express](https://img.shields.io/badge/express-391468?style=flat&logo=express)](https://expressjs.com/).
+Репозиторий для Бэкенд-части приложения проекта Movies-Explorer. Реализован с помощью [![Node.js](https://img.shields.io/badge/Node.js-391468?style=flat&logo=node.js)](https://nodejs.org/en/) [![Express](https://img.shields.io/badge/Express-391468?style=flat&logo=express)](https://expressjs.com/).
 
 ## Описание проекта
 
@@ -35,12 +35,11 @@
 
 ---
 
+[ССЫЛКА](https://movies-explorer-roman.nomoredomains.icu/ "Сайт Movies-Explorer") на сайт.
+
 Публичный IP-адрес сервера: [178.154.241.213](https://178.154.241.213/ "https://178.154.241.213/").
 
 [Ссылка](https://api.movies-explorer-roman.nomoredomains.icu/ "Movie-Explorer бэкенд") на домен.
-
-[ССЫЛКА](https://movies-explorer-roman.nomoredomains.icu/ "Сайт Movies-Explorer") на сайт.
-
 
 <br>
 
