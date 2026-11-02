@@ -1,3 +1,13 @@
+# Movies-Explorer API
+
+Node.js REST API for the Movies-Explorer app (frontend: [movies-explorer-frontend](https://github.com/ramach05/movies-explorer-frontend)): email/password auth with JWT, users and their saved-movie collections on MongoDB, request validation, rate limiting and security headers. Built in 2021 as a backend learning project.
+
+**Stack**: Node.js · Express · MongoDB · Mongoose · JWT · bcrypt · celebrate (Joi) · helmet · express-rate-limit · winston
+
+The full project description (Russian) and demo links are below.
+
+---
+
 # Проект Movies-Explorer бэкенд
 
 Репозиторий для Бэкенд-части приложения проекта Movies-Explorer. Реализован с помощью [![Node.js](https://img.shields.io/badge/Node.js-391468?style=flat&logo=node.js)](https://nodejs.org/en/) [![Express](https://img.shields.io/badge/Express-391468?style=flat&logo=express)](https://expressjs.com/).
