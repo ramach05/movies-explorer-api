@@ -49,7 +49,7 @@ The full project description (Russian) and demo links are below.
 
 [ССЫЛКА](https://movies-explorer-roman.nomoredomains.icu/ "Сайт Movies-Explorer") на законченный проект.
 
-Публичный IP-адрес сервера: [178.154.241.213](https://178.154.241.213/ "https://178.154.241.213/").
+Публичный IP-адрес сервера: `<server-ip>`.
 
 [Ссылка](https://api.movies-explorer-roman.nomoredomains.icu/ "Movie-Explorer бэкенд") на домен.
 
